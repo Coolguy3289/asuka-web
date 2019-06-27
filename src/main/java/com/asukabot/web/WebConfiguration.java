@@ -17,14 +17,16 @@ public class WebConfiguration {
     public String index() {
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getClass().getCanonicalName());
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) authentication;
-        token.getPrincipal().getAttributes();
-        Map<String, Object> details = token.getPrincipal().getAttributes();
-        if (details != null)
-            for (Object o : details.keySet()) {
-                System.out.print("item:" + o + " val: ");
-                System.out.println(details.get(o));
-            }
-        return "home";
+        if (authentication instanceof OAuth2AuthenticationToken) {
+            OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) authentication;
+            token.getPrincipal().getAttributes();
+            Map<String, Object> details = token.getPrincipal().getAttributes();
+            if (details != null)
+                for (Object o : details.keySet()) {
+                    System.out.print("item:" + o + " val: ");
+                    System.out.println(details.get(o));
+                }
+        }
+        return "index";
     }
 }
